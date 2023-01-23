@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Xml.Serialization;
 using System.Text.RegularExpressions;
 
@@ -23,20 +23,49 @@ namespace Hangman
 
         static void Game(string genWord)
         {
+            char[] wordLetters = genWord.ToCharArray();
+
             //Here it takes the length of the word and makes _ depending on how many letters there are in the word
-            int wordLength = genWord.Length;
-            string print = "";
-            for (int i = 0; i < wordLength; i++)
+            string blankword = new string('_', genWord.Length);
+            Console.WriteLine($"Welcome your word is {blankword}");
+            Console.WriteLine("");
+            Console.Write("Guess a letter that is in the word: ");
+            
+
+            bool isReady = blankword.Contains("_");
+            while (blankword.Contains("_"))
             {
-                print += "_";
+                string guess = Console.ReadLine();
+
+                if (genWord.Contains(guess))
+                {
+                    for (int i = 0; i < genWord.Length; i++)
+                    {
+                        if (genWord[i] == guess[0])
+                        {
+                            blankword = blankword.Remove(i, 1).Insert(i, guess);
+                        }
+                    }
+                    Console.Clear();
+                    Console.WriteLine($"Correct!");
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Incorrect!");
+                    
+                }
+                Console.WriteLine($"The word is {blankword}");
+                Console.WriteLine();
+                Console.Write("Guess another letter: ");
             }
-            Console.WriteLine($"Welcome your word is {print}");
+            Console.WriteLine($"Congratulations, you guessed the word! The word was \"{blankword}\"");
         }
     }
 
     public class Wordmaker
     {
-        public string? randomWord;
+    public string? randomWord;
         public string Word()
         {
             string sti = @"C:\Datamappe", datafil = @"C:\Datamappe\WordList.txt"; ;
@@ -62,4 +91,4 @@ namespace Hangman
             return randomWord;
         }
     }
-}
+}   
